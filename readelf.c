@@ -1,6 +1,7 @@
 #include <elf.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 char *input_path;
@@ -28,6 +29,7 @@ int main(int argc, char **argv) {
 	if (strcmp(elf->magic, "ELF\0\0\0") != 0) {
 		printf("Ошибка чтение заголовка!\n");
 		fclose(f);
+		free(elf);
 		return 1;
 	}
 
@@ -52,6 +54,14 @@ int main(int argc, char **argv) {
 
 		printf("\tразмер: %d\n",
 				code->size);
+
+		putc('\t', stdout);
+
+		for (int i = 0; i < code->size - sizeof(long); i++) {
+			printf("%02x ", code->data[i] & 0xff);
+		}
+
+		putc('\n', stdout);
 
 		free(code);
 	}

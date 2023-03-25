@@ -1,5 +1,5 @@
 CC = gcc -I ./include -c -DDEBUG -fsanitize=address -g
-LD = gcc -lasan -g
+LD = gcc -fsanitize=address -g
 
 
 SOURCES = $(wildcard *.c)
@@ -12,6 +12,7 @@ OBJECTS = $(SOURCES:.c=.o)
 
 all: $(OBJECTS)
 	$(LD) $^ -o readelf
+	./readelf ../ld/func.elf
 
 
 clean:
